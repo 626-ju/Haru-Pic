@@ -15,6 +15,14 @@ export default {
         test: /\.css$/i,
         use: ['style-loader', 'css-loader', 'postcss-loader'],
       },
+      {
+        test: /\.svg$/i,
+        type: 'asset/resource', // SVG 파일을 일반 파일처럼 처리
+      },
+      {
+        test: /\.(png|jpe?g|gif)$/i,
+        type: 'asset/resource', // PNG, JPG, GIF 처리
+      },
     ],
   },
   plugins: [

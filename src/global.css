@@ -1,1 +1,13 @@
-@import "tailwindcss";
+@import 'tailwindcss';
+@import url('//cdn.jsdelivr.net/font-iropke-batang/1.2/font-iropke-batang.css');
+
+button {
+  cursor: pointer;
+}
+
+@theme {
+  --color-black-300: #5e5e5e;
+  --color-black-500: #454545;
+
+  --font-family-Iropke: 'Iropke Batang', serif;
+}
