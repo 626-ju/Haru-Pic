@@ -10,7 +10,6 @@ window.SeongJoo = SeongJoo;
 // 원래 위와 같이 직접 사용하지 않더라도 바벨이 트랜스파일링 하려면 임포트가 필요(리액트 17버전 이전엔 react를 임포트했던 것처럼)
 // window의 속성으로 추가함으로써 임포트 없이 사용하고자 함
 
-
 function createElement(type, props, ...children) {
   return {
     type,
@@ -51,7 +50,13 @@ function render(element, container) {
   Object.keys(element.props)
     .filter(isProperty)
     .forEach((name) => {
-      dom[name] = element.props[name];
+      if (name === 'style') {
+        Object.assign(dom.style, element.props[name]);
+      } else if (name === 'className') {
+        dom.className = element.props[name];
+      } else {
+        dom[name] = element.props[name];
+      }
     });
 
   // 자식 요소들 재귀적으로 렌더링
@@ -61,3 +66,5 @@ function render(element, container) {
 }
 
 SeongJoo.render(<App />, document.getElementById('root'));
+
+console.log(document.querySelector('#root div').className);
