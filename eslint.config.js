@@ -4,6 +4,7 @@ import { fileURLToPath } from 'url';
 import { FlatCompat } from '@eslint/eslintrc';
 import pluginImport from 'eslint-plugin-import';
 import prettierPlugin from 'eslint-plugin-prettier';
+import pluginReact from 'eslint-plugin-react'; // 추가
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -15,10 +16,13 @@ const compat = new FlatCompat({
 const eslintConfig = [
   ...compat.extends(),
   {
+    ignores: ['dist/**', 'node_modules/**', 'build/**'],
+  },
+  {
     files: ['**/*.{js,jsx,html}'],
     languageOptions: {
       parserOptions: {
-        ecmaVersion: 'latest',
+        ecmaVersion: 2022,
         sourceType: 'module',
         ecmaFeatures: { jsx: true },
       },
@@ -26,6 +30,7 @@ const eslintConfig = [
     plugins: {
       prettier: prettierPlugin,
       import: pluginImport,
+      react: pluginReact,
     },
     rules: {
       'prettier/prettier': 'error',
@@ -38,6 +43,8 @@ const eslintConfig = [
       'no-empty': 'warn',
       'no-var': 'error',
       'prefer-const': 'warn',
+      'react/jsx-uses-vars': 'error',
+      'react/jsx-uses-react': 'error',
 
       // import 정렬
       'import/order': [

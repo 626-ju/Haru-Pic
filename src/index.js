@@ -1,8 +1,6 @@
-/*
-  createElement - > 리액트 요소를 실제 돔요소로 만드는 함수
-*/
+import { App } from './App.js';
 
-const SeongJoo = {
+export const SeongJoo = {
   createElement,
   render,
 };
@@ -30,6 +28,12 @@ function createTextElement(text) {
 }
 
 function render(element, container) {
+  // 함수형 컴포넌트 처리
+  if (typeof element.type === 'function') {
+    const componentElement = element.type(element.props);
+    return render(componentElement, container);
+  }
+
   // DOM 노드 생성
   const dom =
     element.type == 'TEXT'
@@ -50,7 +54,4 @@ function render(element, container) {
   container.appendChild(dom);
 }
 
-//바벨이 SeongJoo.createElement로 트랜스파일링
-const element = <h1 title="foo">SeongJoo's JS to React</h1>;
-
-SeongJoo.render(element, document.getElementById('root'));
+SeongJoo.render(<App />, document.getElementById('root'));
