@@ -1,17 +1,15 @@
-import logo from '../assets/logo.svg';
 import searchIcon from '../assets/search_ic.svg';
+import Logo from './Logo.js';
 
 const Gnb = () => {
   return (
-    <div className='w-full flex justify-between px-30 h-20 items-center bg-white'>
-      <a href='/'>
-        <img className='w-[172px] h-12' src={logo} alt='로고' />
-      </a>
-      <button>
-        <img className='w-10 h-10' src={searchIcon} alt='검색 아이콘' />
+    <div className="fixed top-0 z-50 w-full flex justify-between px-6 md:px-18 xl:px-30 h-20 items-center bg-white">
+      <Logo />
+      <button className='cursor-pointer'>
+        <img className="w-10 h-10" src={searchIcon} alt="검색 아이콘" />
       </button>
     </div>
-  )
-}
+  );
+};
 
-export default Gnb
+export default Gnb;

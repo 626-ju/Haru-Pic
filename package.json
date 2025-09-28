@@ -41,5 +41,8 @@
     "plugins": {
       "@tailwindcss/postcss": {}
     }
+  },
+  "dependencies": {
+    "clsx": "^2.1.1"
   }
 }

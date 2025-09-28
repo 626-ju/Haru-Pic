@@ -11,13 +11,17 @@ window.SeongJoo = SeongJoo;
 // window의 속성으로 추가함으로써 임포트 없이 사용하고자 함
 
 function createElement(type, props, ...children) {
+
+  const flatChildren = children.flat().map((child) =>
+    typeof child === 'object' && child !== null ? child : createTextElement(child),
+  );
+
+  console.log(type, props, children)
   return {
     type,
     props: {
       ...props,
-      children: children.map((child) =>
-        typeof child === 'object' ? child : createTextElement(child),
-      ),
+      children: flatChildren
     },
   };
 }
@@ -33,6 +37,7 @@ function createTextElement(text) {
 }
 
 function render(element, container) {
+
   // 함수형 컴포넌트 처리
   if (typeof element.type === 'function') {
     const componentElement = element.type(element.props);
@@ -42,29 +47,40 @@ function render(element, container) {
   // DOM 노드 생성
   const dom =
     element.type == 'TEXT'
-      ? document.createTextNode('')
+      ? document.createTextNode(element.props.nodeValue)
       : document.createElement(element.type);
 
-  // props 추가
-  const isProperty = (key) => key !== 'children';
-  Object.keys(element.props)
-    .filter(isProperty)
-    .forEach((name) => {
-      if (name === 'style') {
-        Object.assign(dom.style, element.props[name]);
-      } else if (name === 'className') {
-        dom.className = element.props[name];
-      } else {
-        dom[name] = element.props[name];
-      }
-    });
+  if (element.type !== 'TEXT') {
 
-  // 자식 요소들 재귀적으로 렌더링
-  element.props.children.forEach((child) => render(child, dom));
+    // props 추가
+    const isProperty = (key) => key !== 'children';
+    const isEvent = (key) => key.startsWith('on');
+
+    Object.keys(element.props || {})
+      .filter(isProperty)
+      .forEach((name) => {
+        if (isEvent(name)) {
+          // 이벤트 핸들러 처리
+          const eventType = name.toLowerCase().substring(2);
+          dom.addEventListener(eventType, element.props[name]);
+        } else if (name === 'style') {
+          Object.assign(dom.style, element.props[name]);
+        } else if (name === 'className') {
+          dom.className = element.props[name];
+        } else if (name in dom) {
+          // DOM 프로퍼티로 설정
+          dom[name] = element.props[name];
+        } else {
+          // HTML 속성으로 설정
+          dom.setAttribute(name, element.props[name]);
+        }
+      });
+
+    // 자식 요소들 재귀적으로 렌더링
+    (element.props?.children || []).forEach((child) => render(child, dom));
+  }
 
   container.appendChild(dom);
 }
 
 SeongJoo.render(<App />, document.getElementById('root'));
-
-console.log(document.querySelector('#root div').className);
