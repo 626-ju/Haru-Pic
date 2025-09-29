@@ -11,15 +11,15 @@ window.SeongJoo = SeongJoo;
 // window의 속성으로 추가함으로써 임포트 없이 사용하고자 함
 
 function createElement(type, props, ...children) {
+  /* ex) children이 배열로 한번 감싸져서 옴 */
   const flatChildren = children
-    .flat()
+    .flat(Infinity)
     .map((child) =>
       typeof child === 'object' && child !== null
         ? child
         : createTextElement(child),
     );
 
-  console.log(type, props, children);
   return {
     type,
     props: {

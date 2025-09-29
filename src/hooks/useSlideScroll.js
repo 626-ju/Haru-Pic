@@ -3,7 +3,15 @@ const useSlideScroll = () => {
   let totalSections = 5;
   let isScrolling = false;
 
+  const SCROLL_THRESHOLD = 100;
+  let scrollTimer = null;
+  let accumulatedDelta = 0;
+
+  let slideContainer = null;
+
   document.addEventListener('DOMContentLoaded', () => {
+    slideContainer = document.getElementById('slideContainer');
+
     (function initSlideScroll() {
       document.addEventListener(
         'wheel',
@@ -11,11 +19,19 @@ const useSlideScroll = () => {
           e.preventDefault();
           if (isScrolling) return;
 
-          if (e.deltaY > 0 && currentSection < totalSections - 1) {
-            goToSection(currentSection + 1);
-          } else if (e.deltaY < 0 && currentSection > 0) {
-            goToSection(currentSection - 1);
-          }
+          clearTimeout(scrollTimer);
+          accumulatedDelta += e.deltaY;
+
+          scrollTimer = setTimeout(() => {
+            if (Math.abs(accumulatedDelta) >= SCROLL_THRESHOLD) {
+              if (accumulatedDelta > 0 && currentSection < totalSections - 1) {
+                goToSection(currentSection + 1);
+              } else if (accumulatedDelta < 0 && currentSection > 0) {
+                goToSection(currentSection - 1);
+              }
+            }
+            accumulatedDelta = 0;
+          }, 30);
         },
         { passive: false },
       );
