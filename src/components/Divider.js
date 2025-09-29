@@ -6,7 +6,7 @@ const Divider = ({ className }) => {
     <img
       src={divider}
       alt="구분선"
-      className={clsx("mt-[-1vh] md:mt-[-1.5vh] xl:mt-[-2vh]", className)}
+      className={clsx('mt-[-1vh] md:mt-[-1.5vh] xl:mt-[-2vh]', className)}
     />
   );
 };

@@ -4,7 +4,7 @@ import Button from '../../components/Button.js';
 
 const Landing = () => {
   return (
-    <div >
+    <div>
       <div
         className=" bg-white min-h-[90vh] pb-9 bg-cover bg-center"
         style={{ backgroundImage: `url(${Background})` }}
@@ -17,11 +17,8 @@ const Landing = () => {
           <p className="mt-2 md:mt-6 xl:mt-10 text-sm md:text-xl text-black-300 font-family-Iropke">
             다른 사람들과 공유해보세요
           </p>
-          <Button>
-            시작하기
-          </Button>
+          <Button>시작하기</Button>
         </div>
-
       </div>
       <Divider />
     </div>

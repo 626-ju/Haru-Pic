@@ -11,17 +11,20 @@ window.SeongJoo = SeongJoo;
 // window의 속성으로 추가함으로써 임포트 없이 사용하고자 함
 
 function createElement(type, props, ...children) {
+  const flatChildren = children
+    .flat()
+    .map((child) =>
+      typeof child === 'object' && child !== null
+        ? child
+        : createTextElement(child),
+    );
 
-  const flatChildren = children.flat().map((child) =>
-    typeof child === 'object' && child !== null ? child : createTextElement(child),
-  );
-
-  console.log(type, props, children)
+  console.log(type, props, children);
   return {
     type,
     props: {
       ...props,
-      children: flatChildren
+      children: flatChildren,
     },
   };
 }
@@ -37,7 +40,6 @@ function createTextElement(text) {
 }
 
 function render(element, container) {
-
   // 함수형 컴포넌트 처리
   if (typeof element.type === 'function') {
     const componentElement = element.type(element.props);
@@ -51,7 +53,6 @@ function render(element, container) {
       : document.createElement(element.type);
 
   if (element.type !== 'TEXT') {
-
     // props 추가
     const isProperty = (key) => key !== 'children';
     const isEvent = (key) => key.startsWith('on');
