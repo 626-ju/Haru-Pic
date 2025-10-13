@@ -1,4 +1,5 @@
 import clsx from 'clsx';
+
 import logo from '../assets/logo.svg';
 
 const Logo = ({ className }) => {

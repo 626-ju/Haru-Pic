@@ -1,6 +1,6 @@
 const useSlideScroll = () => {
   let currentSection = 0;
-  let totalSections = 5;
+  const totalSections = 5;
   let isScrolling = false;
 
   const SCROLL_THRESHOLD = 100;
@@ -17,7 +17,9 @@ const useSlideScroll = () => {
         'wheel',
         (e) => {
           e.preventDefault();
-          if (isScrolling) return;
+          if (isScrolling) {
+            return;
+          }
 
           clearTimeout(scrollTimer);
           accumulatedDelta += e.deltaY;
@@ -39,7 +41,9 @@ const useSlideScroll = () => {
   });
 
   function goToSection(index) {
-    if (isScrolling) return;
+    if (isScrolling) {
+      return;
+    }
 
     currentSection = index;
     isScrolling = true;

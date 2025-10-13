@@ -121,8 +121,9 @@ function render(element, container) {
 
     childFiber.parent = fiber; //parent가 부모 가리키게
 
-    if (i === 0)
-      fiber.child = childFiber; //첫 자식일 경우
+    if (i === 0) {
+      fiber.child = childFiber;
+    } //첫 자식일 경우
     else {
       prevChild.sibling = childFiber; //형제 연결
     }
@@ -145,10 +146,9 @@ export function rerender(fiber) {
 }
 
 export function reconcile(fiber, newElement) {
+  //elment의 타입이 같다면 프롭만 업데이트
   if (fiber.type === newElement.type) {
-    //elment의 타입이 같다면 프롭만 업데이트
-
-    //근데 함수형이면 실행하기
+    //함수형이면 실행하기
     if (typeof fiber.type === 'function') {
       fiber.hookIndex = 0; //hook도 다시 실행해야 하니 0부터
       SeongJoo.currentFiber = fiber;
@@ -173,9 +173,7 @@ export function reconcile(fiber, newElement) {
         reconcile(childFiber, newChild);
         childFiber = childFiber.sibling; //다음 형제로
       } else {
-        const newFiber = render(newChild, fiber.dom);
-        //여기서 render 반환으로 다시 fiber트리 연결해야 함✨✨✨✨✨✨✨
-        //render안에 있는 fiber연결은 자식들만 해당하니까
+        render(newChild, fiber.dom);
       }
     });
 
@@ -186,12 +184,26 @@ export function reconcile(fiber, newElement) {
     }
   } else {
     //다르면 아예 새로 만들어서 교체
-    const newDom = createDom(newElement);
 
-    fiber.dom.replaceWith(newDom); //실제 브라우저 dom교체(dom api)
-    fiber.dom = newDom; //fiber객체의 참조 변경
-    fiber.type = newElement.type;
-    fiber.props = newElement.props;
+    //새로운 비교대상이 함수형이면
+    if (typeof newElement.type === 'function') {
+      const newFiber = render(newElement, fiber.parent?.dom || document.body);
+      fiber.dom.replaceWith(newFiber.dom);
+
+      fiber.dom = newFiber.dom;
+      fiber.type = newElement.type;
+      fiber.props = newElement.props;
+      fiber.child = newFiber.child;
+      return;
+    } else {
+      //함수형이 아닐 때
+      const newDom = createDom(newElement);
+
+      fiber.dom.replaceWith(newDom); //실제 브라우저 dom교체(dom api)
+      fiber.dom = newDom; //fiber객체의 참조 변경
+      fiber.type = newElement.type;
+      fiber.props = newElement.props;
+    }
   }
 }
 

@@ -1,16 +1,9 @@
 import Background from '../../assets/main_bg.png';
-import Divider from '../../components/Divider.js';
 import Button from '../../components/Button.js';
-import { useState } from '../../hooks/useState.js';
+import Divider from '../../components/Divider.js';
+import { router } from '../../components/Router/Router.js';
 
 const Landing = () => {
-  const [count, setCount] = useState(0);
-
-  const handleClick = () => {
-    console.log(count);
-    setCount(count + 1);
-  };
-
   return (
     <div>
       <div
@@ -25,7 +18,7 @@ const Landing = () => {
           <p className="mt-2 md:mt-6 xl:mt-10 text-sm md:text-xl text-black-300 font-family-Iropke">
             다른 사람들과 공유해보세요
           </p>
-          <Button onClick={handleClick}>시작하기</Button>
+          <Button onClick={() => router.push('/temp')}>시작하기</Button>
         </div>
       </div>
       <Divider />

@@ -1,4 +1,5 @@
 import clsx from 'clsx';
+
 import divider from '../assets/divider.png';
 
 const Divider = ({ className }) => {

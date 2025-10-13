@@ -1,6 +1,6 @@
 import Landing from './Landing.js';
-import LandingSection from './LandingSection.js';
 import LandingBottom from './LandingBottom.js';
+import LandingSection from './LandingSection.js';
 import useSlideScroll from '../../hooks/useSlideScroll.js';
 
 const Home = () => {
