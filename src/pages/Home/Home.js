@@ -5,7 +5,6 @@ import useSlideScroll from '../../hooks/useSlideScroll.js';
 
 const Home = () => {
   useSlideScroll();
-  document.body.style.overflow = 'hidden'; //추후 클린 업으로 치워야할듯?
 
   return (
     <div

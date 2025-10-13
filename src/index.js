@@ -3,15 +3,13 @@ import { App } from './App.js';
 export const SeongJoo = {
   createElement,
   render,
+  currentFiber: null,
 };
 
 window.SeongJoo = SeongJoo;
-// import { _SeongJoo } from './index.js';
-// 원래 위와 같이 직접 사용하지 않더라도 바벨이 트랜스파일링 하려면 임포트가 필요(리액트 17버전 이전엔 react를 임포트했던 것처럼)
-// window의 속성으로 추가함으로써 임포트 없이 사용하고자 함
 
+//ReactElement처럼 만들기
 function createElement(type, props, ...children) {
-  /* ex) children이 배열로 한번 감싸져서 옴 */
   const flatChildren = children
     .flat(Infinity)
     .map((child) =>
@@ -39,49 +37,211 @@ function createTextElement(text) {
   };
 }
 
-function render(element, container) {
-  // 함수형 컴포넌트 처리
-  if (typeof element.type === 'function') {
-    const componentElement = element.type(element.props);
-    return render(componentElement, container);
-  }
+//ReactElement에 diffing을 위한 정보 추가
+function createFiber(element, container) {
+  return {
+    type: element.type,
+    props: element.props,
+    hooks: [],
+    dom: null,
+    parent: null,
+    parentDom: container,
+    child: null,
+    sibling: null, //다음 형제를 가리킴
+  };
+}
 
-  // DOM 노드 생성
+function setProps(dom, props) {
+  //실제 dom에 props 적용시키는 함수
+  const isProperty = (key) => key !== 'children';
+  const isEvent = (key) => key.startsWith('on');
+
+  Object.keys(props || {})
+    .filter(isProperty)
+    .forEach((name) => {
+      if (isEvent(name)) {
+        // 이벤트 핸들러 처리
+        const eventType = name.toLowerCase().substring(2);
+        dom.addEventListener(eventType, props[name]); //추후 언 마운트 시 리스너 제거?
+      } else if (name === 'style') {
+        Object.assign(dom.style, props[name]);
+      } else if (name === 'className') {
+        dom.className = props[name];
+      } else if (name in dom) {
+        // DOM 프로퍼티로 설정+텍스트의 nodeValue도 포함
+        dom[name] = props[name];
+      } else {
+        // HTML 속성으로 설정
+        dom.setAttribute(name, props[name]);
+      }
+    });
+}
+
+//실제 dom노드 생성
+function createDom(element) {
   const dom =
     element.type == 'TEXT'
       ? document.createTextNode(element.props.nodeValue)
       : document.createElement(element.type);
 
   if (element.type !== 'TEXT') {
-    // props 추가
-    const isProperty = (key) => key !== 'children';
-    const isEvent = (key) => key.startsWith('on');
-
-    Object.keys(element.props || {})
-      .filter(isProperty)
-      .forEach((name) => {
-        if (isEvent(name)) {
-          // 이벤트 핸들러 처리
-          const eventType = name.toLowerCase().substring(2);
-          dom.addEventListener(eventType, element.props[name]);
-        } else if (name === 'style') {
-          Object.assign(dom.style, element.props[name]);
-        } else if (name === 'className') {
-          dom.className = element.props[name];
-        } else if (name in dom) {
-          // DOM 프로퍼티로 설정
-          dom[name] = element.props[name];
-        } else {
-          // HTML 속성으로 설정
-          dom.setAttribute(name, element.props[name]);
-        }
-      });
-
-    // 자식 요소들 재귀적으로 렌더링
-    (element.props?.children || []).forEach((child) => render(child, dom));
+    setProps(dom, element.props);
   }
 
-  container.appendChild(dom);
+  return dom;
 }
 
-SeongJoo.render(<App />, document.getElementById('root'));
+function render(element, container) {
+  const fiber = createFiber(element, container);
+
+  // 함수형 컴포넌트 처리
+  if (typeof fiber.type === 'function') {
+    SeongJoo.currentFiber = fiber; //해당 컴포넌트를 그릴 때 어디서 실행된 거인지 저장용
+    fiber.hookIndex = 0; //구분용
+
+    const componentElement = fiber.type(fiber.props);
+
+    //함수형 컴포넌트는 dom이 없으니까 자식의 dom사용
+    const childFiber = render(componentElement, container);
+    fiber.dom = childFiber.dom;
+    fiber.child = childFiber;
+    childFiber.parent = fiber;
+
+    return fiber;
+  }
+
+  // DOM 노드 생성
+  const dom = createDom(element);
+  fiber.dom = dom; //fiber에 dom추가
+
+  // 자식 요소들 재귀적으로 렌더+ fiber에 관계 추가
+  let prevChild = null; //형제 넘겨주기 위한 임시 저장용
+  (element.props?.children || []).forEach((child, i) => {
+    const childFiber = render(child, dom); //render가 fiber를 반환하니까
+
+    childFiber.parent = fiber; //parent가 부모 가리키게
+
+    if (i === 0)
+      fiber.child = childFiber; //첫 자식일 경우
+    else {
+      prevChild.sibling = childFiber; //형제 연결
+    }
+    prevChild = childFiber;
+  });
+
+  container.appendChild(dom);
+
+  return fiber; //렌더지만 반환은 fiber
+}
+
+export function rerender(fiber) {
+  fiber.hookIndex = 0;
+  SeongJoo.currentFiber = fiber;
+
+  //함수형일 경우
+  const newElement = fiber.type(fiber.props);
+
+  reconcile(fiber.child, newElement);
+}
+
+export function reconcile(fiber, newElement) {
+  if (fiber.type === newElement.type) {
+    //elment의 타입이 같다면 프롭만 업데이트
+
+    //근데 함수형이면 실행하기
+    if (typeof fiber.type === 'function') {
+      fiber.hookIndex = 0; //hook도 다시 실행해야 하니 0부터
+      SeongJoo.currentFiber = fiber;
+
+      const newChildElement = fiber.type(newElement.props);
+      fiber.props = newElement.props; // props 업데이트
+
+      reconcile(fiber.child, newChildElement);
+      return;
+    }
+
+    updateProps(fiber.dom, fiber.props, newElement.props);
+    fiber.props = newElement.props;
+
+    //자식들도 비교
+    const newChildren = newElement.props.children || [];
+    let childFiber = fiber.child;
+
+    newChildren.forEach((newChild) => {
+      if (childFiber) {
+        //자식이 있으면 자식도 비교하기
+        reconcile(childFiber, newChild);
+        childFiber = childFiber.sibling; //다음 형제로
+      } else {
+        const newFiber = render(newChild, fiber.dom);
+        //여기서 render 반환으로 다시 fiber트리 연결해야 함✨✨✨✨✨✨✨
+        //render안에 있는 fiber연결은 자식들만 해당하니까
+      }
+    });
+
+    // 위에 forEach 다 돌았는데 형제가 남아 있다면(남은 기존 자식 제거)
+    while (childFiber) {
+      childFiber.dom.remove();
+      childFiber = childFiber.sibling;
+    }
+  } else {
+    //다르면 아예 새로 만들어서 교체
+    const newDom = createDom(newElement);
+
+    fiber.dom.replaceWith(newDom); //실제 브라우저 dom교체(dom api)
+    fiber.dom = newDom; //fiber객체의 참조 변경
+    fiber.type = newElement.type;
+    fiber.props = newElement.props;
+  }
+}
+
+function updateProps(dom, prevProps, newProps) {
+  const isEvent = (key) => key.startsWith('on');
+  const isProperty = (key) => key !== 'children';
+
+  //사라진 이벤트 리스너 제거
+  Object.keys(prevProps)
+    .filter(isEvent)
+    .forEach((name) => {
+      if (!(name in newProps) || prevProps[name] !== newProps[name]) {
+        const eventType = name.toLowerCase().substring(2);
+        dom.removeEventListener(eventType, prevProps[name]);
+      }
+    });
+
+  //사라진 프롭 제거
+  Object.keys(prevProps)
+    .filter(isProperty)
+    .filter((key) => !(key in newProps))
+    .forEach((name) => {
+      if (name === 'className') {
+        dom.className = '';
+      } else if (name === 'style') {
+        Object.keys(prevProps.style || {}).forEach((key) => {
+          dom.style.removeProperty(key);
+        });
+      } else if (name in dom) {
+        dom[name] = '';
+      } else {
+        dom.removeAttribute(name);
+      }
+    });
+
+  //값이 변경된 프롭 찾기
+  const changedProps = {};
+  Object.keys(newProps)
+    .filter(isProperty)
+    .forEach((key) => {
+      if (prevProps[key] !== newProps[key]) {
+        changedProps[key] = newProps[key];
+      }
+    });
+
+  //바뀐 값 반영
+  setProps(dom, changedProps);
+}
+
+const rootElement = <App />;
+const rootContainer = document.getElementById('root');
+
+SeongJoo.render(rootElement, rootContainer);
