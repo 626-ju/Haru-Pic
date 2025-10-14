@@ -1,8 +1,9 @@
 import './global.css';
 import Gnb from './components/Gnb.js';
 import { Router, Route } from './components/Router/Router.js';
+import Album from './pages/Album/Album.js';
+import Albums from './pages/Album/Albums.js';
 import Home from './pages/Home/Home.js';
-import Temp from './pages/Temp/index.js';
 
 export const App = () => {
   return (
@@ -10,7 +11,8 @@ export const App = () => {
       <Gnb />
       <Router>
         <Route path="/" component={Home} />
-        <Route path="/temp" component={Temp} />
+        <Route path="/albums" component={Albums} />
+        <Route path="/album/:albumId" component={Album} />
       </Router>
     </div>
   );

@@ -13,15 +13,51 @@ const Router = ({ children }) => {
     isInit = true;
   }
 
-  const matchedRoute = children.find(
-    (child) => child.props.path === currentPath,
-  );
+  //동적라우팅 추가
+  const matchedRoute = (routePath, currentPath) => {
+    // /albums/:albumid
+    const pattern = routePath.replace(/:\w+/g, '([^/]+)');
+    const routeRegex = new RegExp('^' + pattern + '$');
 
-  return matchedRoute || null;
+    // /albums/123  (실제 id)
+    const matched = currentPath.match(routeRegex); //['/albums/123','123']
+
+    if (!matched) {
+      return null;
+    }
+
+    //paramNames= ['albumId']
+    const paramNames = [...routePath.matchAll(/:(\w+)/g)].map(
+      (matched) => matched[1],
+    );
+
+    const params = {};
+
+    paramNames.forEach((name, i) => {
+      params[name] = matched[i + 1];
+    });
+
+    return params;
+  };
+
+  let params = {};
+
+  const foundRoute = children.find((child) => {
+    const matchedParams = matchedRoute(child.props.path, currentPath);
+
+    if (matchedParams !== null) {
+      params = matchedParams;
+      return true;
+    }
+
+    return false;
+  });
+
+  return foundRoute ? <Route {...foundRoute.props} params={params} /> : null;
 };
 
-const Route = ({ component: Component }) => {
-  return <Component />;
+const Route = ({ component: Component, params }) => {
+  return <Component params={params} />;
 };
 
 const router = {
