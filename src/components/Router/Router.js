@@ -1,6 +1,16 @@
 import { useState } from '../../hooks/useState.js';
 
 let isInit = false;
+let globalCleanups = [];
+
+export function addCleanup(cleanupFn) {
+  globalCleanups.push(cleanupFn);
+}
+
+function runAllCleanups() {
+  globalCleanups.forEach((fn) => fn());
+  globalCleanups = [];
+}
 
 const Router = ({ children }) => {
   const [currentPath, setCurrentPath] = useState(window.location.pathname);
@@ -8,6 +18,7 @@ const Router = ({ children }) => {
   //한번만 등록되도록
   if (!isInit) {
     window.addEventListener('popstate', () => {
+      runAllCleanups();
       setCurrentPath(window.location.pathname);
     });
     isInit = true;

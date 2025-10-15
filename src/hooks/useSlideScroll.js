@@ -1,3 +1,5 @@
+import { addCleanup } from '../components/Router/Router.js';
+
 const useSlideScroll = () => {
   let currentSection = 0;
   const totalSections = 5;
@@ -9,36 +11,35 @@ const useSlideScroll = () => {
 
   let slideContainer = null;
 
-  document.addEventListener('DOMContentLoaded', () => {
+  //DOMContenloaded는 한번만 되니까 클린 업 후에도 리스너 추가하기 위해 setTimeout 0
+  setTimeout(() => {
     slideContainer = document.getElementById('slideContainer');
 
-    (function initSlideScroll() {
-      document.addEventListener(
-        'wheel',
-        (e) => {
-          e.preventDefault();
-          if (isScrolling) {
-            return;
-          }
+    if (slideContainer) {
+      document.addEventListener('wheel', handleWheelEvent, { passive: false });
+    }
+  }, 0);
 
-          clearTimeout(scrollTimer);
-          accumulatedDelta += e.deltaY;
+  function handleWheelEvent(e) {
+    e.preventDefault();
+    if (isScrolling) {
+      return;
+    }
 
-          scrollTimer = setTimeout(() => {
-            if (Math.abs(accumulatedDelta) >= SCROLL_THRESHOLD) {
-              if (accumulatedDelta > 0 && currentSection < totalSections - 1) {
-                goToSection(currentSection + 1);
-              } else if (accumulatedDelta < 0 && currentSection > 0) {
-                goToSection(currentSection - 1);
-              }
-            }
-            accumulatedDelta = 0;
-          }, 30);
-        },
-        { passive: false },
-      );
-    })();
-  });
+    clearTimeout(scrollTimer);
+    accumulatedDelta += e.deltaY;
+
+    scrollTimer = setTimeout(() => {
+      if (Math.abs(accumulatedDelta) >= SCROLL_THRESHOLD) {
+        if (accumulatedDelta > 0 && currentSection < totalSections - 1) {
+          goToSection(currentSection + 1);
+        } else if (accumulatedDelta < 0 && currentSection > 0) {
+          goToSection(currentSection - 1);
+        }
+      }
+      accumulatedDelta = 0;
+    }, 30);
+  }
 
   function goToSection(index) {
     if (isScrolling) {
@@ -51,6 +52,13 @@ const useSlideScroll = () => {
 
     setTimeout(() => (isScrolling = false), 200);
   }
+
+  function cleanup() {
+    document.removeEventListener('wheel', handleWheelEvent);
+    clearTimeout(scrollTimer);
+  }
+
+  addCleanup(cleanup);
 };
 
 export default useSlideScroll;
