@@ -1,7 +1,7 @@
-import Background from '../../assets/main_bg.png';
-import Divider from '../../components/Divider.js';
 import Albums from './Albums.js';
 import PolaroidFrame from './PolaroidFrame.js';
+import Background from '../../assets/main_bg.png';
+import Divider from '../../components/Divider.js';
 
 const Album = ({ params }) => {
   const { albumId } = params;
