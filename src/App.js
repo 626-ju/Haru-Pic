@@ -9,11 +9,13 @@ export const App = () => {
   return (
     <div className="relative h-[100vh]">
       <Gnb />
-      <Router>
-        <Route path="/" component={Home} />
-        <Route path="/albums" component={Albums} />
-        <Route path="/album/:albumId" component={Album} />
-      </Router>
+      <div className="mt-20">
+        <Router>
+          <Route path="/" component={Home} />
+          <Route path="/albums" component={Albums} />
+          <Route path="/album/:albumId" component={Album} />
+        </Router>
+      </div>
     </div>
   );
 };

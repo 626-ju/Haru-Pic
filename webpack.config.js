@@ -1,6 +1,9 @@
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 
 export default {
+  output: {
+    publicPath: '/', 
+  },
   entry: './src/index.js',
   module: {
     rules: [
