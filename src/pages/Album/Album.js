@@ -2,10 +2,10 @@ import Albums from './Albums.js';
 import PolaroidFrame from './PolaroidFrame.js';
 import Background from '../../assets/main_bg.png';
 import Divider from '../../components/Divider.js';
+import Kebab from '../../components/Kebab.js';
 
 const Album = ({ params }) => {
   const { albumId } = params;
-  console.log(albumId);
 
   return (
     <div className="bg-background">
@@ -22,7 +22,12 @@ const Album = ({ params }) => {
             }
           />
           <div className="mx-auto w-90 md:w-120">
-            <h2 className="text-xl md:text-2xl mt-5">사진 제목</h2>
+            <div className="flex justify-between mt-5 items-center">
+              <h2 className="text-xl md:text-2xl ">사진 제목</h2>
+              {/* 추후 수정 삭제 기능 추가 */}
+              <Kebab id={albumId}></Kebab>
+              <Kebab id={124}></Kebab>
+            </div>
             <p className="text-md mt-10 md:text-xl">
               사진에 대한 추억 및 설명 사진에 대한 추억 및 설명 사진에 대한 추억
               및 설명 사진에 대한 추억 및 설명
