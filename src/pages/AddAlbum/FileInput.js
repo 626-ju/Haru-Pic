@@ -3,8 +3,7 @@ import { useState } from '../../hooks/useState.js';
 import { cn } from '../../lib/utils.js';
 
 function FileInput() {
-  const [imageUrl, setImageUrl] = useState('https://picsum.photos/400/300');
-  // const [imageUrl, setImageUrl] = useState(null);
+  const [imageUrl, setImageUrl] = useState(null);
   const [isUploading, setIsUploading] = useState(false);
 
   async function handleChange(e) {

@@ -1,12 +1,19 @@
 export async function uploadImage(file) {
   try {
     const formData = new FormData();
-    formData.append('file', file);
+    formData.append('image', file);
 
-    const response = await fetch('YOUR_S3_UPLOAD_API_ENDPOINT', {
-      method: 'POST',
-      body: formData,
-    });
+    const response = await fetch(
+      'https://linkshop-api.vercel.app/images/upload',
+      {
+        method: 'POST',
+        body: formData,
+      },
+    );
+
+    if (!response.ok) {
+      console.error('업로드 실패');
+    }
 
     const data = await response.json();
     return data.url;
