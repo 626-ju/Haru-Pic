@@ -1,4 +1,4 @@
-import clsx from 'clsx';
+import { cn } from "../../lib/utils.js";
 
 const LandingSection = ({ textFirst, title, paragraph }) => {
   return (
@@ -8,7 +8,7 @@ const LandingSection = ({ textFirst, title, paragraph }) => {
         <div className="xl:order-1 w-78 h-[210px] md:w-91 md:h-60 xl:w-186 xl:h-97  bg-amber-400 rounded-2xl" />
         <div className={textFirst ? 'xl:order-0' : 'xl:order-1'}>
           <h3
-            className={clsx(
+            className={cn(
               'text-black-950  text-xl xl:text-3xl font-bold  leading-8 xl:leading-12 mb-4 md:mb-5 xl:mb-10 whitespace-pre-line',
               textFirst ? 'text-right' : 'text-left',
             )}
@@ -16,7 +16,7 @@ const LandingSection = ({ textFirst, title, paragraph }) => {
             {title}
           </h3>
           <p
-            className={clsx(
+            className={cn(
               'text-blue-500 whitespace-pre-line',
               textFirst ? 'text-right' : 'text-left',
             )}

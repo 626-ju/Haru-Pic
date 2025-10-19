@@ -4,6 +4,7 @@ import { Router, Route } from './components/Router/Router.js';
 import Album from './pages/Album/Album.js';
 import Albums from './pages/Album/Albums.js';
 import Home from './pages/Home/Home.js';
+import AddAlbum from './pages/AddAlbum/AddAlbum.js';
 
 export const App = () => {
   return (
@@ -14,6 +15,7 @@ export const App = () => {
           <Route path="/" component={Home} />
           <Route path="/albums" component={Albums} />
           <Route path="/album/:albumId" component={Album} />
+          <Route path="/newpost" component={AddAlbum} />
         </Router>
       </div>
     </div>

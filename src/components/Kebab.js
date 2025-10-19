@@ -1,5 +1,4 @@
-import clsx from 'clsx';
-
+import { cn } from '../lib/utils.js';
 import kebabIcon from '../assets/kebab.svg';
 import { useKebabOutside } from '../hooks/useKebabOutside.js';
 import { useState } from '../hooks/useState.js';
@@ -72,7 +71,7 @@ function Dropdown({ id }) {
 
   return (
     <ul
-      className={clsx(
+      className={cn(
         isOpen ? 'block' : 'hidden',
         'border-1 border-gray-300 rounded-xl bg-white absolute right-0 cursor-pointer text-gray-300',
       )}

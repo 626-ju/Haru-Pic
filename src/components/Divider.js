@@ -1,5 +1,4 @@
-import clsx from 'clsx';
-
+import { cn } from '../lib/utils.js';
 import divider from '../assets/divider.png';
 
 const Divider = ({ className }) => {
@@ -7,7 +6,7 @@ const Divider = ({ className }) => {
     <img
       src={divider}
       alt="구분선"
-      className={clsx('mt-[-1vh] md:mt-[-1.5vh] xl:mt-[-2vh]', className)}
+      className={cn('mt-[-1vh] md:mt-[-1.5vh] xl:mt-[-2vh]', className)}
     />
   );
 };
