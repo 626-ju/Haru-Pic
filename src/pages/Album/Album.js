@@ -22,9 +22,10 @@ const Album = ({ params }) => {
           />
           <div className="mx-auto w-90 md:w-120">
             <div className="flex justify-between mt-5 items-center">
-              <h2 className="text-xl md:text-lg xl:text-2xl ">가나다라마바사아자차카타파하아자차카타파</h2>
+              <h2 className="text-xl md:text-lg xl:text-2xl ">
+                가나다라마바사아자차카타파하아자차카타파
+              </h2>
               {/* 추후 수정 삭제 기능 추가 */}
-            
             </div>
             <p className="text-md  mt-10  md:text-md xl:text-xl">
               사진에 대한 추억 및 설명 사진에 대한 추억 및 설명 사진에 대한 추억

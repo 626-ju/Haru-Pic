@@ -1,22 +1,15 @@
+import FileInput from './FileInput.js';
+import { postAlbum } from '../../api/postAlbum.js';
 import Background from '../../assets/main_bg.png';
 import Button from '../../components/Button.js';
 import Divider from '../../components/Divider.js';
 import { router } from '../../components/Router/Router.js';
 
-import FileInput from './FileInput.js';
-
-import { postAlbum } from '../../api/postAlbum.js';
-
 function AddAlbum() {
-  // const [title,setTitle] = useState('');
-  // const [description,setDescription] = useState('')
-
   async function handleSubmit(e) {
     e.preventDefault();
 
-    //비제어로
     const formData = new FormData(e.target);
-
     const data = await postAlbum(formData);
 
     if (data.id) {

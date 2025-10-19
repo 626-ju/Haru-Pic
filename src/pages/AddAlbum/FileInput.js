@@ -8,7 +8,9 @@ function FileInput() {
 
   async function handleChange(e) {
     const file = e.target.files[0];
-    if (!file) return;
+    if (!file) {
+      return;
+    }
 
     const newFile = translateFile(file);
 
@@ -24,7 +26,9 @@ function FileInput() {
   function onRemove() {
     setImageUrl(null);
     const fileInput = document.getElementById('fileInput');
-    if (fileInput) fileInput.value = '';
+    if (fileInput) {
+      fileInput.value = '';
+    }
   }
 
   return (

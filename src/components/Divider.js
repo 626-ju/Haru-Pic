@@ -1,5 +1,5 @@
-import { cn } from '../lib/utils.js';
 import divider from '../assets/divider.png';
+import { cn } from '../lib/utils.js';
 
 const Divider = ({ className }) => {
   return (
