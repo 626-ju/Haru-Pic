@@ -1,9 +1,10 @@
 import Link from '../../components/Router/Link.js';
 import { cn } from '../../lib/utils.js';
 
-const PolaroidFrame = ({ id, title, className }) => {
+const PolaroidFrame = ({ id, title, imageUrl, className }) => {
   const imgName = title || '';
-  const albumId = id || 123;
+  const albumId = id || 930;
+  const url = imageUrl || '';
 
   return (
     <Link to={`/album/${albumId}`}>
@@ -14,7 +15,12 @@ const PolaroidFrame = ({ id, title, className }) => {
         )}
       >
         {/* 추후 이미지로 교체 */}
-        <div className="bg-amber-400 h-[80%] w-full" />
+        {url === '' ? (
+          <div className="bg-gray-300 h-[80%] w-full" />
+        ) : (
+          <img src={url} className="block h-[80%] w-full" />
+        )}
+
         <span className="mt-2 md:mt-4 line-clamp-1 w-full !break-all font-family-Iropke text-black-500 text-center xl:mt-6 xl:text-lg">
           {imgName}
         </span>
