@@ -14,9 +14,10 @@ function Album({ params }) {
 
   if (!init) {
     (async function getAlbumData() {
-      const { imageUrl, title, description } = await getAlbum(albumId);
+      const { imageUrl, title, description, frameColor } =
+        await getAlbum(albumId);
 
-      setData({ imageUrl, title, description });
+      setData({ imageUrl, title, description, frameColor });
       setInit(true);
     })();
   }
@@ -36,6 +37,7 @@ function Album({ params }) {
               className={
                 'w-90 h-75 md:w-84 md:h-70 xl:w-120 xl:h-100 shadow-xl p-5'
               }
+              frameColor={data.frameColor || 'white'}
               imageUrl={data.imageUrl || ''}
             />
             <div className="mx-auto w-90 md:w-120">

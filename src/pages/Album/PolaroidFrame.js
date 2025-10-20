@@ -1,7 +1,8 @@
 import Link from '../../components/Router/Link.js';
 import { cn } from '../../lib/utils.js';
+import { COLOR_PALETTE } from '../AddAlbum/ColorPalette.js';
 
-const PolaroidFrame = ({ id, title, imageUrl, className }) => {
+const PolaroidFrame = ({ id, title, imageUrl, frameColor, className }) => {
   const imgName = title || '';
   const albumId = id || 930;
   const url = imageUrl || '';
@@ -11,6 +12,7 @@ const PolaroidFrame = ({ id, title, imageUrl, className }) => {
       <div
         className={cn(
           'bg-white w-42 h-56 md:w-60 md:h-80 mx-auto p-3 md:p-5 pb-0 md:pb-0 shadow-sm flex-shrink-0',
+          COLOR_PALETTE[frameColor],
           className,
         )}
       >
