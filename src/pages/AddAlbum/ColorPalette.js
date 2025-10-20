@@ -7,7 +7,7 @@ export const COLOR_PALETTE = {
   amber: 'bg-amber-500',
   violet: 'bg-violet-500',
   pink: 'bg-pink-500',
-  black: 'bg-black',
+  gray: 'bg-gray-300',
   blue: 'bg-blue-500',
 };
 
@@ -19,19 +19,23 @@ function ColorPalette({ form, onClick }) {
           <label
             onClick={onClick}
             className={cn(
-              'block w-24 h-24 rounded-full cursor-pointer border border-gray-300 opacity-30',
+              'block mx-auto w-24 h-24 rounded-full cursor-pointer border border-gray-300 opacity-30 relative',
               COLOR_PALETTE[color],
               'has-[:checked]:opacity-100  has-[:checked]:border-black has-[:checked]:border-',
             )}
             key={color}
           >
-            <input
-              type="radio"
-              className="sr-only"
-              name="color"
-              value={color}
-              form={form}
-            />
+            <div className="absolute inset-0 hidden has-[:checked]:flex items-center justify-center text-green-500 text-4xl">
+              ✓
+              <input
+                type="radio"
+                className="sr-only"
+                name="color"
+                value={color}
+                form={form}
+                defaultChecked={color === 'white'}
+              />
+            </div>
           </label>
         );
       })}

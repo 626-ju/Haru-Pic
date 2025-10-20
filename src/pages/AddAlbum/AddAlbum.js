@@ -1,10 +1,10 @@
+import ColorPalette from './ColorPalette.js';
 import FileInput from './FileInput.js';
 import { postAlbum } from '../../api/postAlbum.js';
 import Background from '../../assets/main_bg.png';
 import Button from '../../components/Button.js';
 import Divider from '../../components/Divider.js';
 import { router } from '../../components/Router/Router.js';
-import ColorPalette from './ColorPalette.js';
 import { useState } from '../../hooks/useState.js';
 
 function AddAlbum() {
@@ -18,7 +18,7 @@ function AddAlbum() {
     e.preventDefault();
 
     const formData = new FormData(e.target);
-    const data = await postAlbum(formData);
+    await postAlbum(formData);
 
     router.push('/albums');
   }

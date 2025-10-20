@@ -1,6 +1,6 @@
 import Logo from './Logo.js';
-import searchIcon from '../assets/search_ic.svg';
 import Link from './Router/Link.js';
+import { router } from './Router/Router.js';
 
 const Gnb = () => {
   return (
@@ -8,8 +8,12 @@ const Gnb = () => {
       <Link to="/">
         <Logo />
       </Link>
-      <button className="cursor-pointer">
-        <img className="w-10 h-10" src={searchIcon} alt="검색 아이콘" />
+      <button
+        className="cursor-pointer text-[40px] hover:text-gray-300"
+        onClick={() => router.push('/newpost')}
+        title="새 글 작성하기"
+      >
+        +
       </button>
     </div>
   );

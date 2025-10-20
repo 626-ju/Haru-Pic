@@ -1,7 +1,7 @@
+import { COLOR_PALETTE } from './ColorPalette.js';
 import { uploadImage } from '../../api/uploadImage.js';
 import { useState } from '../../hooks/useState.js';
 import { cn } from '../../lib/utils.js';
-import { COLOR_PALETTE } from './ColorPalette.js';
 
 function FileInput({ frameColor }) {
   const [imageUrl, setImageUrl] = useState(null);

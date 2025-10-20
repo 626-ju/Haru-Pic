@@ -1,3 +1,5 @@
+import PolaroidFrame from './PolaroidFrame.js';
+import PolaroidSkeleton from './PolaroidSkeleton.js';
 import { getAlbumList } from '../../api/getAlbumList.js';
 import Link from '../../components/Router/Link.js';
 import { useState } from '../../hooks/useState.js';
@@ -7,8 +9,6 @@ import {
   parseImageUrl,
   parseTitle,
 } from '../../lib/utils.js';
-import PolaroidFrame from './PolaroidFrame.js';
-import PolaroidSkeleton from './PolaroidSkeleton.js';
 
 const Albums = () => {
   const [albums, setAlbums] = useState(null);
