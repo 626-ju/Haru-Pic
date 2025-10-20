@@ -69,7 +69,11 @@ function setProps(dom, props) {
         dom.className = props[name];
       } else if (name in dom) {
         // DOM 프로퍼티로 설정+텍스트의 nodeValue도 포함
-        dom[name] = props[name];
+        try{ 
+          dom[name] = props[name];
+        }catch{ //read-only라서 직접 할당이 불가능한 경우 ex) form속성
+          dom.setAttribute(name, props[name]);
+        }
       } else {
         // HTML 속성으로 설정
         dom.setAttribute(name, props[name]);

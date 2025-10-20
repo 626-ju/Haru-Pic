@@ -2,6 +2,7 @@ export async function postAlbum(formData) {
   const imageUrl = formData.get('imageUrl');
   const title = formData.get('title');
   const description = formData.get('description');
+  const frameColor = formData.get('color');
 
   const requestBody = {
     shop: {
@@ -10,7 +11,11 @@ export async function postAlbum(formData) {
       shopUrl: 'https://example.com/...',
     },
     products: [
-      { price: 0, imageUrl, name: `title:${title},description:${description}` },
+      {
+        price: 0,
+        imageUrl,
+        name: `title:${title},description:${description},frameColor:${frameColor}`,
+      },
     ],
     password: '123456',
     userId: title,

@@ -1,8 +1,9 @@
 import { uploadImage } from '../../api/uploadImage.js';
 import { useState } from '../../hooks/useState.js';
 import { cn } from '../../lib/utils.js';
+import { COLOR_PALETTE } from './ColorPalette.js';
 
-function FileInput() {
+function FileInput({ frameColor }) {
   const [imageUrl, setImageUrl] = useState(null);
   const [isUploading, setIsUploading] = useState(false);
 
@@ -32,7 +33,12 @@ function FileInput() {
   }
 
   return (
-    <div className="bg-white w-90 h-75 md:w-96 md:h-80 xl:w-120 xl:h-100 shadow-xl p-5  mx-auto pb-0 md:pb-0 flex-shrink-0">
+    <div
+      className={cn(
+        'bg-white w-90 h-75 md:w-96 md:h-80 xl:w-120 xl:h-100 shadow-xl p-5  mx-auto pb-0 md:pb-0 flex-shrink-0',
+        COLOR_PALETTE[frameColor],
+      )}
+    >
       <input
         type="file"
         id="fileInput"

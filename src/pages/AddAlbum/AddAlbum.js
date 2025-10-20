@@ -4,17 +4,23 @@ import Background from '../../assets/main_bg.png';
 import Button from '../../components/Button.js';
 import Divider from '../../components/Divider.js';
 import { router } from '../../components/Router/Router.js';
+import ColorPalette from './ColorPalette.js';
+import { useState } from '../../hooks/useState.js';
 
 function AddAlbum() {
+  const [frameColor, setFramecolor] = useState('white');
+
+  function handleClick(e) {
+    setFramecolor(e.target.value);
+  }
+
   async function handleSubmit(e) {
     e.preventDefault();
 
     const formData = new FormData(e.target);
     const data = await postAlbum(formData);
 
-    if (data.id) {
-      router.push(`/album/${data.id}`);
-    }
+    router.push('/albums');
   }
 
   return (
@@ -24,10 +30,11 @@ function AddAlbum() {
         style={{ backgroundImage: `url(${Background})` }}
       >
         <form
+          id="albumForm"
           onSubmit={handleSubmit}
           className="pt-10 md:pt-30 flex gap-5 pb-20 mx-auto flex-col items-center md:items-start  md:flex-row min-w-90 md:w-180 xl:w-280"
         >
-          <FileInput />
+          <FileInput frameColor={frameColor} />
 
           <div className="flex flex-col w-90 md:w-120 mt-5 gap-10">
             <label className="block text-xl md:text-2xl">
@@ -62,6 +69,7 @@ function AddAlbum() {
         </form>
       </div>
       <Divider />
+      <ColorPalette form={'albumForm'} onClick={handleClick} />
     </div>
   );
 }
