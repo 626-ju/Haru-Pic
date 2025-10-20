@@ -15,3 +15,9 @@
   --color-blue-500: #6a82a9;
   --font-family-Iropke: 'Iropke Batang', serif;
 }
+
+@keyframes shimmer {
+  100% {
+    transform: translateX(200%);
+  }
+}

@@ -1,3 +1,10 @@
+import {
+  parseDescription,
+  parseFrameColor,
+  parseImageUrl,
+  parseTitle,
+} from '../lib/utils.js';
+
 export async function getAlbum(albumId) {
   try {
     const response = await fetch(
@@ -10,10 +17,11 @@ export async function getAlbum(albumId) {
 
     const data = await response.json();
 
-    const { imageUrl, name } = data.products[0];
-    const title = name.split(',')[0].replace('title:', '') || '';
-    const description = name.split(',')[1].replace('description:', '') || '';
-    const frameColor = name.split(',')[2].replace('frameColor:', '') || 'white';
+    const imageUrl = parseImageUrl(data) || '';
+
+    const title = parseTitle(data) || '';
+    const description = parseDescription(data) || '';
+    const frameColor = parseFrameColor(data) || 'white';
 
     return { imageUrl, title, description, frameColor };
   } catch (error) {
