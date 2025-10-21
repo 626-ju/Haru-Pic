@@ -32,7 +32,7 @@ function Album({ params }) {
             <PolaroidFrame
               title={''}
               className={
-                'w-90 h-75 md:w-84 md:h-70 xl:w-120 xl:h-100 shadow-xl p-5'
+                'w-90 h-75 md:w-96 md:h-80 xl:w-120 xl:h-100 shadow-xl p-5'
               }
               frameColor={data?.frameColor || 'white'}
               imageUrl={data?.imageUrl || ''}
