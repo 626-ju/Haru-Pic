@@ -8,23 +8,20 @@ import { useState } from '../../hooks/useState.js';
 
 function Album({ params }) {
   const { albumId } = params;
+  const [data, setData] = useState(null);
 
-  const [data, setData] = useState({});
-  const [init, setInit] = useState(false);
-
-  if (!init) {
+  if (data === null) {
     (async function getAlbumData() {
       const { imageUrl, title, description, frameColor } =
         await getAlbum(albumId);
 
       setData({ imageUrl, title, description, frameColor });
-      setInit(true);
     })();
   }
 
   return (
     <>
-      <LoadingSpinner loading={!init} />
+      <LoadingSpinner loading={data === null ? true : false} />
       <div className="bg-background">
         <div
           className="min-h-160 bg-cover bg-center"
@@ -37,18 +34,18 @@ function Album({ params }) {
               className={
                 'w-90 h-75 md:w-84 md:h-70 xl:w-120 xl:h-100 shadow-xl p-5'
               }
-              frameColor={data.frameColor || 'white'}
-              imageUrl={data.imageUrl || ''}
+              frameColor={data?.frameColor || 'white'}
+              imageUrl={data?.imageUrl || ''}
             />
             <div className="mx-auto w-90 md:w-120">
               <div className="flex justify-between mt-5 items-center">
                 <h2 className="text-xl md:text-lg xl:text-2xl ">
-                  {data.title || ''}
+                  {data?.title || ''}
                 </h2>
                 {/* 추후 수정 삭제 기능 추가 */}
               </div>
               <p className="text-md  mt-10  md:text-md xl:text-xl">
-                {data.description || ''}
+                {data?.description || ''}
               </p>
             </div>
           </div>
