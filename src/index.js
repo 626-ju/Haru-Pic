@@ -169,16 +169,33 @@ export function reconcile(fiber, newElement) {
     fiber.props = newElement.props;
 
     //자식들도 비교
+    //새로 비교할 자식배열들
     const newChildren = newElement.props.children || [];
-    let childFiber = fiber.child;
 
-    newChildren.forEach((newChild) => {
+    //기존 존재하던 자식 fiber
+    let childFiber = fiber.child;
+    let prevSibling = null;
+
+    newChildren.forEach((newChild, index) => {
       if (childFiber) {
-        //자식이 있으면 자식도 비교하기
+        //자식이 있었으면 비교하기
         reconcile(childFiber, newChild);
-        childFiber = childFiber.sibling; //다음 형제로
+
+        prevSibling = childFiber; //새로운 fiber가 나오면(밑에 else를 통해) 여기에 이어서 추가해야 하니 잠깐 보관
+        childFiber = childFiber.sibling; //다음 형제로 넘어가서 다시 실행
       } else {
-        render(newChild, fiber.dom);
+        //매칭되는 자식이 없으면 파이버 생성해서 추가
+        const newFiber = render(newChild, fiber.dom);
+
+        if (index === 0) {
+          //첫번째면 자식으로 넣기
+          fiber.child = newFiber;
+        } else if (prevSibling) {
+          //첫번째가 아니면 아까 잠시 보관한 prevSibling에 이어서 형제로 연결
+          prevSibling.sibling = newFiber;
+        }
+        newFiber.parent = fiber; //부모도 연결
+        prevSibling = newFiber; // 다음을 위해 기억
       }
     });
 

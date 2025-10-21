@@ -28,12 +28,12 @@ function Albums() {
     if (albums.nextCursor === null) {
       return;
     }
-
     const data = await getAlbumList(albums.nextCursor);
-    setAlbums({
-      list: [...albums.list, ...data.list],
+
+    setAlbums((prev) => ({
+      list: [...prev.list, ...data.list],
       nextCursor: data.nextCursor,
-    });
+    }));
   }
 
   //useRef 없으니 id 넘기기
