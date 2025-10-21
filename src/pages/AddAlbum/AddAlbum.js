@@ -4,9 +4,9 @@ import { postAlbum } from '../../api/postAlbum.js';
 import Background from '../../assets/main_bg.png';
 import Button from '../../components/Button.js';
 import Divider from '../../components/Divider.js';
+import LoadingSpinner from '../../components/LoadingSpinner.js';
 import { router } from '../../components/Router/Router.js';
 import { useState } from '../../hooks/useState.js';
-import LoadingSpinner from '../../components/LoadingSpinner.js';
 
 function AddAlbum() {
   const [frameColor, setFramecolor] = useState('white');
