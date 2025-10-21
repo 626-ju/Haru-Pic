@@ -2,6 +2,7 @@ import { COLOR_PALETTE } from './ColorPalette.js';
 import { uploadImage } from '../../api/uploadImage.js';
 import { useState } from '../../hooks/useState.js';
 import { cn } from '../../lib/utils.js';
+import PolaroidSkeleton from '../Album/PolaroidSkeleton.js';
 
 function FileInput({ frameColor }) {
   const [imageUrl, setImageUrl] = useState(null);
@@ -9,18 +10,22 @@ function FileInput({ frameColor }) {
 
   async function handleChange(e) {
     const file = e.target.files[0];
-    if (!file) {
+    if (!file || isUploading) {
       return;
     }
 
     const newFile = translateFile(file);
 
-    setIsUploading(true);
-    const uploadedUrl = await uploadImage(newFile);
-    setIsUploading(false);
+    try {
+      setIsUploading(true);
 
-    if (uploadedUrl) {
-      setImageUrl(uploadedUrl);
+      const uploadedUrl = await uploadImage(newFile);
+
+      if (uploadedUrl) {
+        setImageUrl(uploadedUrl);
+      }
+    } finally {
+      setIsUploading(false);
     }
   }
 
@@ -33,36 +38,46 @@ function FileInput({ frameColor }) {
   }
 
   return (
-    <div
-      className={cn(
-        'bg-white w-90 h-75 md:w-96 md:h-80 xl:w-120 xl:h-100 shadow-xl p-5  mx-auto pb-0 md:pb-0 flex-shrink-0',
-        COLOR_PALETTE[frameColor],
-      )}
-    >
-      <input
-        type="file"
-        id="fileInput"
-        className="sr-only"
-        accept=".png,.jpg,.jpeg"
-        onChange={handleChange}
-        disabled={isUploading}
-      />
-
-      <div className={cn(!imageUrl && 'hidden')}>
-        <Preview imageUrl={imageUrl} onRemove={onRemove} />
-        <input type="hidden" name="imageUrl" value={imageUrl || ''} />
-      </div>
-
-      <label
-        htmlFor="fileInput"
+    <>
+      <PolaroidSkeleton
         className={cn(
-          'block bg-gray-300 h-[80%] w-full cursor-pointer flex justify-center items-center text-[60px] text-black-300 hover:text-white',
-          imageUrl && 'hidden',
+          'hidden bg-white w-90 h-75 md:w-96 md:h-80 xl:w-120 xl:h-100 shadow-xl p-5 mx-auto pb-0 md:pb-0 flex-shrink-0',
+          COLOR_PALETTE[frameColor],
+          isUploading && 'block',
+        )}
+      />
+      <div
+        className={cn(
+          'bg-white w-90 h-75 md:w-96 md:h-80 xl:w-120 xl:h-100 shadow-xl p-5  mx-auto pb-0 md:pb-0 flex-shrink-0',
+          COLOR_PALETTE[frameColor],
+          isUploading && 'hidden',
         )}
       >
-        +
-      </label>
-    </div>
+        <input
+          type="file"
+          id="fileInput"
+          className="sr-only"
+          accept=".png,.jpg,.jpeg"
+          onChange={handleChange}
+          disabled={isUploading}
+        />
+
+        <div className={cn(!imageUrl && 'hidden')}>
+          <Preview imageUrl={imageUrl} onRemove={onRemove} />
+          <input type="hidden" name="imageUrl" value={imageUrl || ''} />
+        </div>
+
+        <label
+          htmlFor="fileInput"
+          className={cn(
+            'block bg-gray-300 h-[80%] w-full cursor-pointer flex justify-center items-center text-[60px] text-black-300 hover:text-white',
+            imageUrl && 'hidden',
+          )}
+        >
+          +
+        </label>
+      </div>
+    </>
   );
 }
 

@@ -1,6 +1,6 @@
 export async function getAlbumList() {
   const response = await fetch(
-    `https://linkshop-api.vercel.app/626626/linkshops`,
+    `https://linkshop-api.vercel.app/626626/linkshops`, //무조건 12개씩 보내주네
   );
 
   if (!response.ok) {

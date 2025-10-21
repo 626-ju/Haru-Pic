@@ -6,9 +6,11 @@ import Button from '../../components/Button.js';
 import Divider from '../../components/Divider.js';
 import { router } from '../../components/Router/Router.js';
 import { useState } from '../../hooks/useState.js';
+import LoadingSpinner from '../../components/LoadingSpinner.js';
 
 function AddAlbum() {
   const [frameColor, setFramecolor] = useState('white');
+  const [isLoading, setIsLoading] = useState(false);
 
   function handleClick(e) {
     setFramecolor(e.target.value);
@@ -17,14 +19,19 @@ function AddAlbum() {
   async function handleSubmit(e) {
     e.preventDefault();
 
-    const formData = new FormData(e.target);
-    await postAlbum(formData);
-
-    router.push('/albums');
+    try {
+      setIsLoading(true);
+      const formData = new FormData(e.target);
+      await postAlbum(formData);
+      router.push('/albums');
+    } finally {
+      setIsLoading(false);
+    }
   }
 
   return (
     <div className="bg-background">
+      <LoadingSpinner loading={isLoading} />
       <div
         className="min-h-160 bg-cover bg-center"
         style={{ backgroundImage: `url(${Background})` }}
