@@ -1,19 +1,19 @@
 import { useState } from '../hooks/useState.js';
 import { cn } from '../lib/utils.js';
 
-let listenerAdded = false;
+let _scrollTopInit = false;
 
 function ScrollTop() {
   const [isVisible, setIsVisible] = useState(false);
 
-  if (!listenerAdded) {
+  if (!_scrollTopInit) {
     function updateVisibility() {
       window.pageYOffset > 300 ? setIsVisible(true) : setIsVisible(false);
     }
 
     window.addEventListener('scroll', updateVisibility);
 
-    listenerAdded = true;
+    _scrollTopInit = true;
   }
 
   function handleClick() {
