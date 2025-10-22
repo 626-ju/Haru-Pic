@@ -6,6 +6,7 @@ import AddAlbum from './pages/AddAlbum/AddAlbum.js';
 import Album from './pages/Album/Album.js';
 import Albums from './pages/Album/Albums.js';
 import Home from './pages/Home/Home.js';
+import AddAlbumKey from './pages/AddAlbumKey.js';
 
 export const App = () => {
   return (
@@ -17,6 +18,7 @@ export const App = () => {
           <Route path="/albums" component={Albums} />
           <Route path="/album/:albumId" component={Album} />
           <Route path="/newpost" component={AddAlbum} />
+          <Route path="/identify" component={AddAlbumKey} />
         </Router>
       </div>
       <ScrollTop />

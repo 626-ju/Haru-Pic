@@ -1,3 +1,6 @@
+import getAlbumKey from "../lib/getAlbumKey.js";
+
+
 import {
   parseDescription,
   parseFrameColor,
@@ -6,9 +9,11 @@ import {
 } from '../lib/utils.js';
 
 export async function getAlbum(albumId) {
+   const ALBUM_KEY = getAlbumKey();
+
   try {
     const response = await fetch(
-      `https://linkshop-api.vercel.app/626626/linkshops/${albumId}`,
+      `https://linkshop-api.vercel.app/${ALBUM_KEY}/linkshops/${albumId}`,
     );
 
     if (!response.ok) {

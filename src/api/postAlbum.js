@@ -1,4 +1,10 @@
+import getAlbumKey from "../lib/getAlbumKey.js";
+
+
+
 export async function postAlbum(formData) {
+  const ALBUM_KEY = getAlbumKey();
+
   const imageUrl = formData.get('imageUrl');
   const title = formData.get('title');
   const description = formData.get('description');
@@ -24,7 +30,7 @@ export async function postAlbum(formData) {
 
   try {
     const response = await fetch(
-      'https://linkshop-api.vercel.app/626626/linkshops',
+      `https://linkshop-api.vercel.app/${ALBUM_KEY}/linkshops`,
       {
         method: 'POST',
         body: JSON.stringify(requestBody),
