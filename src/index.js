@@ -152,7 +152,7 @@ export function rerender(fiber) {
 
 export function reconcile(fiber, newElement) {
   //elment의 타입이 같다면 프롭만 업데이트
-  if (fiber.type === newElement.type) {
+  if (fiber.type === newElement.type && fiber.props?.key === newElement.props?.key) {
     //함수형이면 실행하기
     if (typeof fiber.type === 'function') {
       fiber.hookIndex = 0; //hook도 다시 실행해야 하니 0부터

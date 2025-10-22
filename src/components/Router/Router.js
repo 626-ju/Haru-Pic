@@ -20,6 +20,7 @@ const Router = ({ children }) => {
     window.addEventListener('popstate', () => {
       runAllCleanups();
       setCurrentPath(window.location.pathname);
+      window.scrollTo(0, 0);
     });
     isInit = true;
   }
@@ -64,7 +65,7 @@ const Router = ({ children }) => {
     return false;
   });
 
-  return foundRoute ? <Route {...foundRoute.props} params={params} /> : null;
+  return foundRoute ? <Route {...foundRoute.props} params={params} key={currentPath} /> : null;
 };
 
 const Route = ({ component: Component, params }) => {
