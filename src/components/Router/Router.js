@@ -1,4 +1,5 @@
 import { useState } from '../../hooks/useState.js';
+import checkKeyGuard from '../../lib/checkKeyGuard.js';
 
 let isInit = false;
 let globalCleanups = [];
@@ -18,8 +19,12 @@ const Router = ({ children }) => {
   //한번만 등록되도록
   if (!isInit) {
     window.addEventListener('popstate', () => {
+      const currentPath = window.location.pathname;
+
+      checkKeyGuard(currentPath);
+
       runAllCleanups();
-      setCurrentPath(window.location.pathname);
+      setCurrentPath(currentPath);
       window.scrollTo(0, 0);
     });
     isInit = true;
@@ -65,7 +70,9 @@ const Router = ({ children }) => {
     return false;
   });
 
-  return foundRoute ? <Route {...foundRoute.props} params={params} key={currentPath} /> : null;
+  return foundRoute ? (
+    <Route {...foundRoute.props} params={params} key={currentPath} />
+  ) : null;
 };
 
 const Route = ({ component: Component, params }) => {
@@ -74,10 +81,13 @@ const Route = ({ component: Component, params }) => {
 
 const router = {
   push: (path) => {
-    //히스토리 스택에 추가 + url변경
-    window.history.pushState({}, '', path);
-    //이벤트 강제 트리거
-    window.dispatchEvent(new PopStateEvent('popstate'));
+    //렌더링 끝나고 다음 이벤트 루프에 실행하도록
+    setTimeout(() => {
+      //히스토리 스택에 추가 + url변경
+      window.history.pushState({}, '', path);
+      //이벤트 강제 트리거
+      window.dispatchEvent(new PopStateEvent('popstate'));
+    }, 0);
   },
 };
 

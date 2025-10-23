@@ -7,7 +7,7 @@ export const COLOR_PALETTE = {
   amber: 'bg-amber-500',
   violet: 'bg-violet-500',
   pink: 'bg-pink-500',
-  gray: 'bg-gray-300',
+  gray: 'bg-gray-500',
   blue: 'bg-blue-500',
 };
 
