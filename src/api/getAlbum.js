@@ -1,3 +1,4 @@
+import { flatErrorMessage } from '../lib/flatErrorMessage.js';
 import getAlbumKey from '../lib/getAlbumKey.js';
 import {
   parseDescription,
@@ -14,21 +15,21 @@ export async function getAlbum(albumId) {
       `https://linkshop-api.vercel.app/${ALBUM_KEY}/linkshops/${albumId}`,
     );
 
-    if (!response.ok) {
-      throw new Error(response.status)
-    }
-
     const data = await response.json();
 
-    const imageUrl = parseImageUrl(data) || '';
+    if (!response.ok) {
+      const errorMessage = flatErrorMessage(data).message;
+      throw new Error(errorMessage);
+    }
 
+    const imageUrl = parseImageUrl(data) || '';
     const title = parseTitle(data) || '';
     const description = parseDescription(data) || '';
     const frameColor = parseFrameColor(data) || 'white';
 
     return { imageUrl, title, description, frameColor };
   } catch (error) {
-    console.error('가져오기 실패:', error);
+    console.error('가져오기 실패:', error.message);
     alert('가져오기에 실패했습니다.');
 
     return null;

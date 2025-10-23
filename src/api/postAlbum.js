@@ -1,3 +1,4 @@
+import { flatErrorMessage } from '../lib/flatErrorMessage.js';
 import getAlbumKey from '../lib/getAlbumKey.js';
 
 export async function postAlbum(formData) {
@@ -38,16 +39,17 @@ export async function postAlbum(formData) {
       },
     );
 
-    if (!response.ok) {
-      throw new Error(response.status);
-    }
-
     const data = await response.json();
+
+    if (!response.ok) {
+      const errorMessage = flatErrorMessage(data).message;
+      throw new Error(errorMessage);
+    }
 
     return data;
   } catch (error) {
     console.error('앨범 등록 실패:', error);
-    alert('등록에 실패했습니다.');
+    alert(error.message || '등록에 실패했습니다.');
 
     return null;
   }

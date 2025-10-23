@@ -1,3 +1,4 @@
+import { flatErrorMessage } from '../lib/flatErrorMessage.js';
 import getAlbumKey from '../lib/getAlbumKey.js';
 
 export async function deleteAlbum(albumId) {
@@ -17,13 +18,15 @@ export async function deleteAlbum(albumId) {
 
     if (!response.ok) {
       const data = await response.json();
-      throw new Error(data.errorMessage || response.status);
+      const errorMessage = flatErrorMessage(data).message;
+      throw new Error(errorMessage);
     }
 
     alert('삭제에 성공했습니다.');
     return true;
   } catch (error) {
-    console.error('삭제 실패:', error);
-    alert('삭제에 실패했습니다.');
+    console.error('삭제 실패:', error.message);
+    alert(error.message || '삭제에 실패했습니다.');
+    return false;
   }
 }
