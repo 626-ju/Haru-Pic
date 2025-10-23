@@ -4,6 +4,7 @@ import { getAlbumList } from '../../api/getAlbumList.js';
 import Link from '../../components/Router/Link.js';
 import { useIntersectionObserver } from '../../hooks/useIntersectionObserver.js';
 import { useState } from '../../hooks/useState.js';
+import listEmpty from '../../assets/list-empty.svg';
 import {
   cn,
   parseFrameColor,
@@ -42,9 +43,35 @@ function Albums() {
 
   return (
     <div className="min-w-[375px] pt-40 bg-background pb-30">
-      <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-y-10 mx-auto w-90 md:w-190 xl:w-280">
-        {albums.list && albums.list.length > 0
-          ? albums.list.map((data) => {
+      <div
+        className={cn(
+          'hidden w-full h-full  ',
+          albums.list !== null &&
+            albums.list.length === 0 &&
+            'flex flex-col justify-center items-center',
+        )}
+      >
+        <img
+          src={listEmpty}
+          alt="빈 앨범 안내"
+          className="block w-[375px] h-[375px]"
+        />
+        <p className="text-2xl mt-10">새로운 앨범을 등록해보세요</p>
+      </div>
+      <div
+        className={cn(
+          'grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-y-10 mx-auto w-90 md:w-190 xl:w-280',
+          albums.list !== null && albums.list.length === 0 && 'hidden',
+        )}
+      >
+        {albums.list === null
+          ? Array.from({ length: 8 }).map((_, index) => (
+              <PolaroidSkeleton
+                key={index}
+                className={cn(index >= 6 && 'md:hidden xl:block')}
+              />
+            ))
+          : albums.list.map((data) => {
               return (
                 <Link to={`/album/${data.id}`} key={data.id}>
                   <PolaroidFrame
@@ -54,13 +81,7 @@ function Albums() {
                   />
                 </Link>
               );
-            })
-          : Array.from({ length: 8 }).map((_, index) => (
-              <PolaroidSkeleton
-                key={index}
-                className={cn(index >= 6 && 'md:hidden xl:block')}
-              />
-            ))}
+            })}
       </div>
 
       {/* 옵저버 트리거 */}

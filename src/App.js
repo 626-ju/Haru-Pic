@@ -10,7 +10,7 @@ import Home from './pages/Home/Home.js';
 
 export const App = () => {
   return (
-    <div className="relative h-[100vh]">
+    <div className="relative h-[100vh] bg-background">
       <Gnb />
       <div className="mt-20">
         <Router>
