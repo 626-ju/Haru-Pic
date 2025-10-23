@@ -39,15 +39,15 @@ export async function postAlbum(formData) {
     );
 
     if (!response.ok) {
-      console.error('업로드 실패');
+      throw new Error(response.status);
     }
 
     const data = await response.json();
 
     return data;
   } catch (error) {
-    console.error('업로드 실패:', error);
-    alert('업로드에 실패했습니다.');
+    console.error('앨범 등록 실패:', error);
+    alert('등록에 실패했습니다.');
 
     return null;
   }

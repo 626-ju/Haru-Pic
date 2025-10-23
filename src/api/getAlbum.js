@@ -15,7 +15,7 @@ export async function getAlbum(albumId) {
     );
 
     if (!response.ok) {
-      console.error('가져오기 실패');
+      throw new Error(response.status)
     }
 
     const data = await response.json();

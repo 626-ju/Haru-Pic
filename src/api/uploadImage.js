@@ -12,14 +12,15 @@ export async function uploadImage(file) {
     );
 
     if (!response.ok) {
-      console.error('업로드 실패');
+      throw new Error(response.status);
     }
 
     const data = await response.json();
+    
     return data.url;
   } catch (error) {
     console.error('업로드 실패:', error);
-    alert('업로드에 실패했습니다.');
+    alert('이미지 업로드에 실패했습니다.');
     return null;
   }
 }

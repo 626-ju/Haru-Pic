@@ -5,6 +5,9 @@ import Background from '../../assets/main_bg.png';
 import Divider from '../../components/Divider.js';
 import LoadingSpinner from '../../components/LoadingSpinner.js';
 import { useState } from '../../hooks/useState.js';
+import trash from '../../assets/trash.svg';
+import { deleteAlbum } from '../../api/deleteAlbum.js';
+import { router } from '../../components/Router/Router.js';
 
 function Album({ params }) {
   const { albumId } = params;
@@ -19,9 +22,23 @@ function Album({ params }) {
     })();
   }
 
+  async function handleDelete() {
+    if (!window.confirm('정말 삭제하시겠습니까?')) return;
+    const prevData = data;
+
+    setData(''); // null이면 위에 fetch가 트리거 되는 거 조심
+    const response = await deleteAlbum(albumId);
+
+    if (response) {
+      response && router.push('/albums');
+    } else {
+      setData(prevData);
+    }
+  }
+
   return (
     <>
-      <LoadingSpinner loading={data === null ? true : false} />
+      <LoadingSpinner loading={!data ? true : false} />
       <div className="bg-background">
         <div
           className="min-h-160 bg-cover bg-center"
@@ -43,6 +60,12 @@ function Album({ params }) {
                   {data?.title || ''}
                 </h2>
                 {/* 추후 수정 삭제 기능 추가 */}
+                <button
+                  onClick={handleDelete}
+                  className="opacity-30 hover:opacity-100 transition-transform hover:scale-110 cursor-pointer rounded-md border-1 border-gray-500"
+                >
+                  <img className="w-6 h-6" src={trash} alt="삭제 아이콘" />
+                </button>
               </div>
               <p className="text-md  mt-10  md:text-md xl:text-xl">
                 {data?.description || ''}

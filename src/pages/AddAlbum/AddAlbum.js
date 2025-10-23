@@ -52,6 +52,7 @@ function AddAlbum() {
                 placeholder="제목을 입력해주세요"
                 className="block text-md mt-2 w-full md:text-xl border border-gray-300 rounded-lg py-2 px-6"
                 maxLength={20}
+                minLength={2}
               />
             </label>
 
@@ -61,7 +62,9 @@ function AddAlbum() {
                 name="description"
                 className="block text-md mt-2 w-full md:text-xl border border-gray-300 rounded-lg py-2 px-6 h-40 md:h-34 xl:h-54"
                 maxLength={300}
+                minLength={6}
                 placeholder="내용을 입력해주세요"
+                required
               />
             </label>
 

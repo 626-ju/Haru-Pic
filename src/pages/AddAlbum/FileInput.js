@@ -60,6 +60,7 @@ function FileInput({ frameColor }) {
           accept=".png,.jpg,.jpeg"
           onChange={handleChange}
           disabled={isUploading}
+          required
         />
 
         <div className={cn(!imageUrl && 'hidden')}>
