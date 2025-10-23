@@ -1,6 +1,4 @@
-import getAlbumKey from "../lib/getAlbumKey.js";
-
-
+import getAlbumKey from '../lib/getAlbumKey.js';
 import {
   parseDescription,
   parseFrameColor,
@@ -9,7 +7,7 @@ import {
 } from '../lib/utils.js';
 
 export async function getAlbum(albumId) {
-   const ALBUM_KEY = getAlbumKey();
+  const ALBUM_KEY = getAlbumKey();
 
   try {
     const response = await fetch(

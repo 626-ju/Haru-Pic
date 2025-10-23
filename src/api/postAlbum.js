@@ -1,6 +1,4 @@
-import getAlbumKey from "../lib/getAlbumKey.js";
-
-
+import getAlbumKey from '../lib/getAlbumKey.js';
 
 export async function postAlbum(formData) {
   const ALBUM_KEY = getAlbumKey();
