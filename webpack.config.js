@@ -41,7 +41,7 @@ export default {
       template: './index.html',
     }),
 
-    new Dotenv({systemvars: true, }),
+    new Dotenv({ systemvars: true }),
   ],
   devServer: {
     port: 3000,
