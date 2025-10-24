@@ -96,6 +96,27 @@ function createDom(element) {
   return dom;
 }
 
+// 자식 요소들 재귀적으로 fiber에 관계 추가하는 함수
+function connectChildren(fiber, children = [], container) {
+  let prevChild = null; //형제 넘겨주기 위한 임시 저장용
+
+  children.forEach((child, i) => {
+    const childFiber = render(child, container); //render가 fiber를 반환하니까
+    childFiber.parent = fiber; //parent가 부모 가리키게
+
+    if (i === 0) {
+      //첫 자식일 경우
+      fiber.child = childFiber;
+    } else {
+      //형제 연결
+      prevChild.sibling = childFiber;
+    }
+    prevChild = childFiber;
+  });
+
+  return fiber;
+}
+
 function render(element, container) {
   const fiber = createFiber(element, container);
 
@@ -119,21 +140,7 @@ function render(element, container) {
   const dom = createDom(element);
   fiber.dom = dom; //fiber에 dom추가
 
-  // 자식 요소들 재귀적으로 렌더+ fiber에 관계 추가
-  let prevChild = null; //형제 넘겨주기 위한 임시 저장용
-  (element.props?.children || []).forEach((child, i) => {
-    const childFiber = render(child, dom); //render가 fiber를 반환하니까
-
-    childFiber.parent = fiber; //parent가 부모 가리키게
-
-    if (i === 0) {
-      fiber.child = childFiber;
-    } //첫 자식일 경우
-    else {
-      prevChild.sibling = childFiber; //형제 연결
-    }
-    prevChild = childFiber;
-  });
+  connectChildren(fiber, element.props?.children, dom);
 
   container.appendChild(dom);
 
@@ -171,7 +178,7 @@ export function reconcile(fiber, newElement) {
     updateProps(fiber.dom, fiber.props, newElement.props);
     fiber.props = newElement.props;
 
-    //자식들도 비교
+    //자식들도 비교(diffing)
     //새로 비교할 자식배열들
     const newChildren = newElement.props.children || [];
 

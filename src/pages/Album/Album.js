@@ -37,7 +37,7 @@ function Album({ params }) {
   }
 
   return (
-    <>
+    <div>
       <LoadingSpinner loading={!data ? true : false} />
       <div className="bg-background">
         <div
@@ -76,7 +76,7 @@ function Album({ params }) {
         <Divider />
         <Albums />
       </div>
-    </>
+    </div>
   );
 }
 

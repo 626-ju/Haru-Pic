@@ -5,7 +5,6 @@ export default {
       '@babel/preset-react',
       {
         pragma: 'SeongJoo.createElement', // React.createElement 역할의 함수
-        pragmaFrag: 'SeongJoo.Fragment',
       },
     ],
   ],

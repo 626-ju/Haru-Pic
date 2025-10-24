@@ -38,7 +38,7 @@ function FileInput({ frameColor }) {
   }
 
   return (
-    <>
+    <div>
       <PolaroidSkeleton
         className={cn(
           'hidden bg-white w-90 h-75 md:w-96 md:h-80 xl:w-120 xl:h-100 shadow-xl p-5 mx-auto pb-0 md:pb-0 flex-shrink-0',
@@ -78,7 +78,7 @@ function FileInput({ frameColor }) {
           +
         </label>
       </div>
-    </>
+    </div>
   );
 }
 
