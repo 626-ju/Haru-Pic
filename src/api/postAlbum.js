@@ -2,7 +2,8 @@ import { flatErrorMessage } from '../lib/flatErrorMessage.js';
 import getAlbumKey from '../lib/getAlbumKey.js';
 
 export async function postAlbum(formData) {
-  const ALBUM_KEY = getAlbumKey();
+  // const ALBUM_KEY = getAlbumKey();
+  const ALBUM_KEY = process.env.ALBUM_KEY; // 포폴용 고정id
 
   const imageUrl = formData.get('imageUrl');
   const title = formData.get('title');

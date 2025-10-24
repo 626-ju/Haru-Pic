@@ -1,8 +1,9 @@
 import HtmlWebpackPlugin from 'html-webpack-plugin';
+import Dotenv from 'dotenv-webpack';
 
 export default {
   output: {
-    publicPath: '/', 
+    publicPath: '/',
   },
   entry: './src/index.js',
   module: {
@@ -32,6 +33,8 @@ export default {
     new HtmlWebpackPlugin({
       template: './index.html',
     }),
+
+    new Dotenv(),
   ],
   devServer: {
     port: 3000,

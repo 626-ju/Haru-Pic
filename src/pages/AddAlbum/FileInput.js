@@ -63,7 +63,7 @@ function FileInput({ frameColor }) {
           required
         />
 
-        <div className={cn(!imageUrl && 'hidden')}>
+        <div className={cn('h-full',!imageUrl && 'hidden')}>
           <Preview imageUrl={imageUrl} onRemove={onRemove} />
           <input type="hidden" name="imageUrl" value={imageUrl || ''} />
         </div>
@@ -86,8 +86,8 @@ export default FileInput;
 
 function Preview({ imageUrl, onRemove }) {
   return (
-    <div className="relative h-[80%]">
-      <img src={imageUrl} className="block w-full h-full" />
+    <div className="relative h-[80%] ">
+      <img src={imageUrl} className="block w-full h-full object-cover" />
       <button
         type="button"
         onClick={(e) => {

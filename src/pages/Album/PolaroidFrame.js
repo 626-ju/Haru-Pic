@@ -17,7 +17,9 @@ const PolaroidFrame = ({ title, imageUrl, frameColor, className }) => {
       {url === '' ? (
         <div className="bg-gray-300 h-[80%] w-full" />
       ) : (
-        <img src={url} className="block h-[80%] w-full" />
+        <div className='h-[80%] w-full'>
+          <img src={url} className="block h-full w-full object-cover" />
+          </div>
       )}
 
       <span className="mt-2 md:mt-4 line-clamp-1 w-full !break-all font-family-Iropke text-black-500 text-center xl:mt-6 xl:text-lg">

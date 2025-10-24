@@ -2,7 +2,8 @@ import { flatErrorMessage } from '../lib/flatErrorMessage.js';
 import getAlbumKey from '../lib/getAlbumKey.js';
 
 export async function getAlbumList(nextCursor = 0) {
-  const ALBUM_KEY = getAlbumKey();
+  // const ALBUM_KEY = getAlbumKey();
+  const ALBUM_KEY = process.env.ALBUM_KEY; // 포폴용 고정id
 
   try {
     const response = await fetch(

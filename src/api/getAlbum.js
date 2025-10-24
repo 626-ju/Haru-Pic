@@ -8,7 +8,8 @@ import {
 } from '../lib/utils.js';
 
 export async function getAlbum(albumId) {
-  const ALBUM_KEY = getAlbumKey();
+  // const ALBUM_KEY = getAlbumKey();
+  const ALBUM_KEY = process.env.ALBUM_KEY; // 포폴용 고정id
 
   try {
     const response = await fetch(
