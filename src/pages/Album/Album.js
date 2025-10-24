@@ -1,13 +1,13 @@
 import Albums from './Albums.js';
 import PolaroidFrame from './PolaroidFrame.js';
+import { deleteAlbum } from '../../api/deleteAlbum.js';
 import { getAlbum } from '../../api/getAlbum.js';
 import Background from '../../assets/main_bg.png';
+import trash from '../../assets/trash.svg';
 import Divider from '../../components/Divider.js';
 import LoadingSpinner from '../../components/LoadingSpinner.js';
-import { useState } from '../../hooks/useState.js';
-import trash from '../../assets/trash.svg';
-import { deleteAlbum } from '../../api/deleteAlbum.js';
 import { router } from '../../components/Router/Router.js';
+import { useState } from '../../hooks/useState.js';
 
 function Album({ params }) {
   const { albumId } = params;
@@ -23,7 +23,9 @@ function Album({ params }) {
   }
 
   async function handleDelete() {
-    if (!window.confirm('정말 삭제하시겠습니까?')) return;
+    if (!window.confirm('정말 삭제하시겠습니까?')) {
+      return;
+    }
     const prevData = data;
 
     setData(''); // null이면 위에 fetch가 트리거 되는 거 조심

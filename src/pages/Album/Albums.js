@@ -1,10 +1,10 @@
 import PolaroidFrame from './PolaroidFrame.js';
 import PolaroidSkeleton from './PolaroidSkeleton.js';
 import { getAlbumList } from '../../api/getAlbumList.js';
+import listEmpty from '../../assets/list-empty.svg';
 import Link from '../../components/Router/Link.js';
 import { useIntersectionObserver } from '../../hooks/useIntersectionObserver.js';
 import { useState } from '../../hooks/useState.js';
-import listEmpty from '../../assets/list-empty.svg';
 import {
   cn,
   parseFrameColor,

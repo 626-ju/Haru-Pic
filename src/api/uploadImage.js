@@ -16,7 +16,7 @@ export async function uploadImage(file) {
     }
 
     const data = await response.json();
-    
+
     return data.url;
   } catch (error) {
     console.error('업로드 실패:', error);

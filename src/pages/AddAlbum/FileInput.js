@@ -63,7 +63,7 @@ function FileInput({ frameColor }) {
           required
         />
 
-        <div className={cn('h-full',!imageUrl && 'hidden')}>
+        <div className={cn('h-full', !imageUrl && 'hidden')}>
           <Preview imageUrl={imageUrl} onRemove={onRemove} />
           <input type="hidden" name="imageUrl" value={imageUrl || ''} />
         </div>
