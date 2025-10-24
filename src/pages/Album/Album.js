@@ -67,7 +67,7 @@ function Album({ params }) {
                   <img className="w-6 h-6" src={trash} alt="삭제 아이콘" />
                 </button>
               </div>
-              <p className="text-md  mt-10  md:text-md xl:text-xl">
+              <p className="text-md mt-10 md:text-md xl:text-xl whitespace-pre-wrap ">
                 {data?.description || ''}
               </p>
             </div>
