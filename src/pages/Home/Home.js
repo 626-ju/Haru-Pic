@@ -13,15 +13,14 @@ const Home = () => {
     >
       <Landing />
       <LandingSection
-        title={`명언이나 글귀,
-       토막 상식들을 공유해 보세요.`}
-        paragraph={`나만 알던 소중한 글들을 다른 사람들에게 전파하세요.`}
+        title={`일상을 사진으로 보관하세요.`}
+        paragraph={`소중한 추억들 잃어버리지 마세요.`}
       />
       <LandingSection
         textFirst={true}
-        title={`감정 상태에 따라, 
-        알맞은 위로를 받을 수 있어요.`}
-        paragraph={`태그를 통해 글을 모아 볼 수 있어요.`}
+        title={`기분에 따라, 
+        알맞은 색을 기록할 수 있어요.`}
+        paragraph={`폴라로이드의 색으로 표현하세요.`}
       />
       <LandingSection
         title={`내가 요즘 어떤 감정 상태인지 
