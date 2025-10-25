@@ -1,10 +1,10 @@
 import Landing from './Landing.js';
 import LandingBottom from './LandingBottom.js';
 import LandingSection from './LandingSection.js';
+import landingPic1 from '../../assets/landing-pic1.png';
+import landingPic2 from '../../assets/landing-pic2.png';
+import landingPic3 from '../../assets/landing-pic3.png';
 import useSlideScroll from '../../hooks/useSlideScroll.js';
-import landingPic1 from '../../assets/landing-pic1.png'
-import landingPic2 from '../../assets/landing-pic2.png'
-import landingPic3 from '../../assets/landing-pic3.png'
 
 const Home = () => {
   useSlideScroll();
