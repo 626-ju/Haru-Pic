@@ -32,8 +32,7 @@ const Home = () => {
         landingPic={landingPic1}
         title={`내가 요즘 어떤 감정 상태인지 
       한눈에 볼 수 있어요.`}
-        paragraph={`내 마음에 담긴 감정들을
-          모아서 확인해보세요`}
+        paragraph={`내 마음에 담긴 감정들을 모아서 확인해보세요`}
       />
       <LandingBottom />
     </div>
