@@ -13,7 +13,6 @@ const PolaroidFrame = ({ title, imageUrl, frameColor, className }) => {
         className,
       )}
     >
-      {/* 추후 이미지로 교체 */}
       {url === '' ? (
         <div className="bg-gray-300 h-[80%] w-full" />
       ) : (
@@ -22,7 +21,7 @@ const PolaroidFrame = ({ title, imageUrl, frameColor, className }) => {
         </div>
       )}
 
-      <span className="mt-2 md:mt-4 line-clamp-1 w-full !break-all font-family-Iropke text-black-500 text-center xl:mt-6 xl:text-lg">
+      <span className="mt-2 md:mt-4 line-clamp-1 w-full !break-all font-family-Iropke text-black-500 text-center  xl:text-lg">
         {imgName}
       </span>
     </div>

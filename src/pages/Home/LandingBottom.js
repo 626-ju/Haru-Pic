@@ -9,10 +9,10 @@ const LandingBottom = () => {
     <div className="h-[90vh]">
       <Divider className={'rotate-180 mb-[-1vh] md:mb-[-1.5vh] xl:mb-[-2vh]'} />
       <div
-        className="bg-white h-[90vh] bg-cover bg-center py-100"
+        className="bg-white h-[90vh] bg-cover bg-center py-100 flex items-center"
         style={{ backgroundImage: `url(${Background})` }}
       >
-        <div className="w-fit mx-auto flex flex-col items-center -mt-30">
+        <div className="w-fit mx-auto flex flex-col items-center">
           <Logo />
           <Button onClick={() => router.push('/albums')}>시작하기</Button>
         </div>

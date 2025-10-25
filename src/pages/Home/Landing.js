@@ -7,10 +7,10 @@ const Landing = () => {
   return (
     <div>
       <div
-        className=" bg-white min-h-[90vh] pb-9 bg-cover bg-center mt-[-60px]"
+        className=" bg-white min-h-[90vh] pb-9 bg-cover bg-center mt-[-60px] flex items-center"
         style={{ backgroundImage: `url(${Background})` }}
       >
-        <div className="w-80 md:w-114 xl:w-122 mx-auto text-center break-words pt-60 ">
+        <div className="w-80 md:w-114 xl:w-122 mx-auto text-center break-words">
           <h2 className="text-2xl md:text-[32px] xl:text-[40px] break-normal font-family-Iropke text-black-500 xl:leading-16 md:leading-12 leading-10">
             잊어버리기엔 <br />
             아까운 추억들이 있지 않나요?
