@@ -71,7 +71,7 @@ function FileInput({ frameColor }) {
         <label
           htmlFor="fileInput"
           className={cn(
-            'block bg-gray-300 h-[80%] w-full cursor-pointer flex justify-center items-center text-[60px] text-black-300 hover:text-white',
+            'bg-gray-300 h-[80%] w-full cursor-pointer flex justify-center items-center text-[60px] text-black-300 hover:text-white',
             imageUrl && 'hidden',
           )}
         >
